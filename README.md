@@ -1,6 +1,25 @@
-# EchoScribe
+<div align="center">
 
-Audio transcription workspace that lets you record or upload audio files and get clean transcripts using either OpenAI Whisper (cloud) or a local Whisper model running entirely on your machine.
+<h1>
+  <img src="public/echoscribe-logo.svg" alt="EchoScribe logo" width="28" />
+  EchoScribe
+</h1>
+
+Audio transcription workspace — record or upload audio and get clean transcripts using OpenAI Whisper (cloud) or a local Whisper model running entirely on your machine.
+
+**No accounts. No data leaves your machine when using local mode.**
+
+<p>
+<a href="https://www.linkedin.com/in/sahar-mor/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-Connect-blue" alt="LinkedIn"></a>
+<a href="https://x.com/theaievangelist" target="_blank"><img src="https://img.shields.io/twitter/follow/theaievangelist" alt="X"></a>
+<a href="http://aitidbits.ai/" target="_blank"><img src="https://img.shields.io/badge/AI%20Tidbits-Stay%20updated%20on%20AI-yellow" alt="Stay updated on AI"></a>
+</p>
+
+<br/>
+
+<img width="900" src="public/preview.png" alt="EchoScribe preview" style="border-radius: 12px;" />
+
+</div>
 
 ## Features
 
