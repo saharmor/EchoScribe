@@ -14,7 +14,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -205,3 +204,20 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- Node.js ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Audio artifacts ---
+*.wav
+*.mp3
+*.webm
+*.ogg
+*.m4a
