@@ -30,14 +30,6 @@ Audio transcription workspace — record or upload audio and get clean transcrip
 - **Prompt guidance** -- pass context (names, topics) to improve transcription accuracy.
 - **Copy & review** -- view full transcripts in a modal, copy to clipboard with one click.
 
-## Tech stack
-
-| Layer    | Tech |
-|----------|------|
-| Frontend | React 18, TypeScript, Vite, Tailwind CSS, Radix UI |
-| Backend  | Python, FastAPI, Pydantic, stable-ts (local Whisper), OpenAI SDK |
-| Audio    | pydub + ffmpeg for format conversion |
-
 ## Prerequisites
 
 - **Python 3.10+**
@@ -74,46 +66,6 @@ The script will:
 - Start the FastAPI backend on **http://localhost:9090**.
 - Start the Vite dev server on **http://localhost:8282**.
 
-### Custom ports
-
-```bash
-BACKEND_PORT=4000 FRONTEND_PORT=3000 ./start_echo_scribe.sh
-```
-
-## Project structure
-
-```
-EchoScribe/
-├── backend/
-│   ├── main.py              # FastAPI app -- /api/transcribe, /api/save-recording
-│   ├── utils.py              # Audio loading and format conversion helpers
-│   ├── requirements.txt      # Python dependencies
-│   └── .env.example          # Template for secrets
-├── frontend/
-│   ├── src/
-│   │   ├── pages/index.tsx           # Main transcription page
-│   │   ├── components/               # UI components
-│   │   ├── hooks/                    # useTranscriptionWorkflow
-│   │   ├── lib/                      # API client, utilities
-│   │   └── types/                    # Shared TypeScript types
-│   ├── package.json
-│   ├── vite.config.js
-│   ├── tailwind.config.js
-│   └── tsconfig.json
-├── start_echo_scribe.sh      # One-command launcher for both services
-├── LICENSE
-└── README.md
-```
-
-## Development
-
-### Frontend only
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
 
 Available scripts:
 
@@ -124,18 +76,3 @@ Available scripts:
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript type checking |
 
-### Backend only
-
-```bash
-cd backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --host 127.0.0.1 --port 9090 --reload
-```
-
-API docs are available at **http://localhost:9090/docs** when the backend is running.
-
-## License
-
-MIT -- see [LICENSE](LICENSE).
