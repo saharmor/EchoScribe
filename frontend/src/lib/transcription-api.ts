@@ -3,6 +3,7 @@ import type {
   TranscriptionApiResponse,
   TranscriptionModel,
 } from "@/types/transcription"
+import { isWebMode, getStoredApiKey } from "@/lib/web-mode"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api"
 
@@ -12,10 +13,9 @@ function toUrl(path: string) {
 
 async function readErrorMessage(response: Response) {
   try {
-    const payload = (await response.json()) as { detail?: string }
-    if (payload.detail) {
-      return payload.detail
-    }
+    const payload = (await response.json()) as { detail?: string; error?: { message?: string } }
+    if (payload.detail) return payload.detail
+    if (payload.error?.message) return payload.error.message
   } catch {
     // Fall back to the response status text below.
   }
@@ -35,6 +35,15 @@ export async function saveRecording(
   audioBlob: Blob,
   fileName: string,
 ): Promise<SaveRecordingResponse> {
+  if (isWebMode) {
+    return {
+      message: "Recording ready (web mode — not saved to disk)",
+      file_path: "",
+      filename: fileName,
+      content_type: audioBlob.type,
+    }
+  }
+
   const extension =
     audioBlob.type === "audio/webm"
       ? "webm"
@@ -56,7 +65,42 @@ export async function saveRecording(
   return parseJson<SaveRecordingResponse>(response)
 }
 
-export async function transcribeAudio(
+async function transcribeViaOpenAI(
+  file: File,
+  prompt: string,
+): Promise<TranscriptionApiResponse> {
+  const apiKey = getStoredApiKey()
+  if (!apiKey) {
+    throw new Error("Please enter your OpenAI API key above before transcribing.")
+  }
+
+  const formData = new FormData()
+  formData.append("file", file)
+  formData.append("model", "whisper-1")
+
+  if (prompt.trim()) {
+    formData.append("prompt", prompt.trim())
+  }
+
+  const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body: formData,
+  })
+
+  if (!response.ok) {
+    throw new Error(await readErrorMessage(response))
+  }
+
+  const data = (await response.json()) as { text?: string }
+
+  return {
+    text: data.text ?? "",
+    segments: [],
+  }
+}
+
+async function transcribeViaBackend(
   file: File,
   model: TranscriptionModel,
   prompt: string,
@@ -72,9 +116,7 @@ export async function transcribeAudio(
   const response = await fetch(toUrl("/transcribe"), {
     method: "POST",
     body: formData,
-    headers: {
-      Accept: "application/json",
-    },
+    headers: { Accept: "application/json" },
   })
 
   const data = await parseJson<Partial<TranscriptionApiResponse>>(response)
@@ -83,4 +125,16 @@ export async function transcribeAudio(
     text: data.text ?? "",
     segments: data.segments ?? [],
   }
+}
+
+export async function transcribeAudio(
+  file: File,
+  model: TranscriptionModel,
+  prompt: string,
+): Promise<TranscriptionApiResponse> {
+  if (isWebMode) {
+    return transcribeViaOpenAI(file, prompt)
+  }
+
+  return transcribeViaBackend(file, model, prompt)
 }

@@ -4,17 +4,20 @@ import { Mic, RotateCcw, Sparkles, Waves } from "lucide-react"
 import { RecordingModal } from "@/components/RecordingModal"
 import { TranscriptionDropzone } from "@/components/TranscriptionDropzone"
 import { TranscriptionResults } from "@/components/TranscriptionResults"
+import { ApiKeyInput } from "@/components/ApiKeyInput"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { isWebMode } from "@/lib/web-mode"
 import { useTranscriptionWorkflow } from "@/hooks/use-transcription-workflow"
 import type { TranscriptionModel } from "@/types/transcription"
 
-const modelOptions: Array<{
+const allModelOptions: Array<{
   value: TranscriptionModel
   title: string
   description: string
   icon: typeof Sparkles
+  webOnly?: boolean
 }> = [
   {
     value: "whisper",
@@ -29,6 +32,10 @@ const modelOptions: Array<{
     icon: Waves,
   },
 ]
+
+const modelOptions = isWebMode
+  ? allModelOptions.filter((o) => o.value !== "local-whisper")
+  : allModelOptions
 
 export default function Home() {
   const [showRecordingModal, setShowRecordingModal] = useState(false)
@@ -59,10 +66,13 @@ export default function Home() {
             EchoScribe
           </h1>
           <p className="mt-3 text-base leading-7 text-muted-foreground sm:text-lg">
-            Transcribe recordings and generate insights locally or via the cloud.
-            Pick a model, drop your files, and get clean transcripts in seconds.
+            {isWebMode
+              ? "Transcribe recordings using OpenAI Whisper. Drop your files, enter your API key, and get clean transcripts in seconds."
+              : "Transcribe recordings and generate insights locally or via the cloud. Pick a model, drop your files, and get clean transcripts in seconds."}
           </p>
         </div>
+
+        {isWebMode && <ApiKeyInput />}
 
         {/* Notice banner */}
         {notice ? (
@@ -84,7 +94,8 @@ export default function Home() {
         {/* Main workspace card */}
         <div className="surface-panel p-6 sm:p-8">
           <div className="space-y-6">
-            {/* Model picker */}
+            {/* Model picker — hidden in web mode since only cloud Whisper is available */}
+            {modelOptions.length > 1 && (
             <div>
               <label className="section-label mb-3 block">Transcription model</label>
               <div className="grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Transcription model">
@@ -127,6 +138,7 @@ export default function Home() {
                 })}
               </div>
             </div>
+            )}
 
             {/* Prompt */}
             <div>
