@@ -5,7 +5,7 @@
   EchoScribe
 </h1>
 
-Audio transcription workspace — record or upload audio and get clean transcripts using OpenAI Whisper (cloud) or a local Whisper model running entirely on your machine.
+Your audio transcription workspace - record or upload audio and get clean transcripts using OpenAI Whisper (cloud) or a local Whisper model running entirely on your machine.
 
 **No accounts. No data leaves your machine when using local mode.**
 
