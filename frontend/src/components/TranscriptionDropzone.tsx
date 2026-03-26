@@ -52,7 +52,7 @@ export function TranscriptionDropzone({
 
   if (currentFile) {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-border/80 bg-white/70 px-4 py-3">
+      <div className="flex h-full min-h-[5.5rem] items-center gap-3 rounded-2xl border border-border/80 bg-white/70 px-4 py-4 md:min-h-[8.5rem]">
         <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-background text-muted-foreground">
           <FileAudio className="h-4 w-4" />
         </div>
@@ -79,7 +79,7 @@ export function TranscriptionDropzone({
       <div
         {...getRootProps()}
         className={cn(
-          "group rounded-2xl border border-dashed px-6 py-8 text-center transition duration-200",
+          "group h-full min-h-[8.5rem] rounded-2xl border border-dashed px-6 py-8 text-center transition duration-200",
           disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           isDragActive
             ? "border-primary/50 bg-primary-soft/80"

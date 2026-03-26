@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   AlertCircle,
   AlertTriangle,
@@ -77,6 +77,8 @@ function CopyButton({ text }: { text: string }) {
 
 export default function Home() {
   const [showRecordingModal, setShowRecordingModal] = useState(false)
+  const [transcribeCueVersion, setTranscribeCueVersion] = useState(0)
+  const previousFileRef = useRef<File | null>(null)
   const {
     canStart,
     errorMessage,
@@ -96,6 +98,14 @@ export default function Home() {
   } = useTranscriptionWorkflow()
 
   const hasResult = status === "completed" && transcript !== null
+
+  useEffect(() => {
+    if (file && previousFileRef.current !== file) {
+      setTranscribeCueVersion((version) => version + 1)
+    }
+
+    previousFileRef.current = file
+  }, [file])
 
   return (
     <div className="min-h-screen">
@@ -123,7 +133,7 @@ export default function Home() {
           className={cn(
             "grid gap-6",
             hasResult
-              ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
+              ? "xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
               : "mx-auto max-w-3xl",
           )}
         >
@@ -220,10 +230,10 @@ export default function Home() {
                 </div>
 
                 {/* Record + Dropzone */}
-                <div className="grid gap-4 sm:grid-cols-[auto_1fr]">
+                <div className="grid gap-4 md:grid-cols-[minmax(0,8.5rem)_minmax(0,1fr)]">
                   <Button
                     variant="outline"
-                    className="h-auto flex-col gap-2 rounded-2xl px-6 py-6 sm:px-8"
+                    className="h-auto w-full flex-col gap-2 rounded-2xl px-6 py-6 md:min-h-[8.5rem] md:px-8"
                     onClick={() => setShowRecordingModal(true)}
                     disabled={isTranscribing}
                   >
@@ -254,7 +264,11 @@ export default function Home() {
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
-                  className="flex-1"
+                  key={`transcribe-${transcribeCueVersion}`}
+                  className={cn(
+                    "flex-1",
+                    file && !isTranscribing && transcribeCueVersion > 0 && "animate-transcribe-ready",
+                  )}
                   onClick={startTranscription}
                   disabled={!canStart}
                 >
@@ -283,7 +297,7 @@ export default function Home() {
           {/* Right: Transcription result pane */}
           {hasResult && (
             <div className="surface-panel flex flex-col p-6 sm:p-8">
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <h2 className="section-label">Transcription</h2>
                 <CopyButton text={transcript} />
               </div>
@@ -328,8 +342,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border/40 bg-background/60">
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-          <div className="grid gap-8 sm:grid-cols-[1fr_auto_auto]">
-            <div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_auto_auto]">
+            <div className="md:col-span-2 lg:col-span-1">
               <p className="font-serif text-lg font-medium text-foreground">
                 EchoScribe
               </p>
