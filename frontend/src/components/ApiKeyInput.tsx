@@ -22,9 +22,20 @@ export function ApiKeyInput() {
           OpenAI API key
         </label>
       </div>
-      <p className="text-sm text-muted-foreground mb-3">
-        Your key is stored only in this browser and sent directly to OpenAI — it never touches any
+      <p className="text-sm text-muted-foreground mb-1">
+        Your key is stored only in this browser and sent directly to OpenAI. It never touches any
         third-party server.
+      </p>
+      <p className="text-xs text-muted-foreground mb-3">
+        Don&apos;t have a key?{" "}
+        <a
+          href="https://platform.openai.com/api-keys"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 hover:text-foreground transition"
+        >
+          Get one from OpenAI
+        </a>
       </p>
       <div className="relative">
         <input

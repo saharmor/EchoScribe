@@ -37,7 +37,7 @@ export async function saveRecording(
 ): Promise<SaveRecordingResponse> {
   if (isWebMode) {
     return {
-      message: "Recording ready (web mode — not saved to disk)",
+      message: "Recording ready (web mode, not saved to disk)",
       file_path: "",
       filename: fileName,
       content_type: audioBlob.type,

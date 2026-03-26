@@ -240,7 +240,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* CTA + errors — outside the card */}
+            {/* CTA + errors - outside the card */}
             <div className="mt-4 space-y-3">
               {/* Error / warning message */}
               {status === "error" && errorMessage && (

@@ -11,7 +11,7 @@ Your audio transcription workspace - record or upload audio and get clean transc
 
 ### [Try it online → saharmor.me/EchoScribe](https://saharmor.me/EchoScribe/)
 
-> The hosted version runs entirely in your browser — just bring your OpenAI API key. Your key stays in localStorage and is sent directly to OpenAI, never to any third-party server. Local Whisper is only available when you run the project locally with the Python backend.
+> The hosted version runs entirely in your browser. Just bring your OpenAI API key. Your key stays in localStorage and is sent directly to OpenAI, never to any third-party server. Local Whisper is only available when you run the project locally with the Python backend.
 
 <p>
 <a href="https://saharmor.me/EchoScribe/" target="_blank"><img src="https://img.shields.io/badge/Try%20Online-GitHub%20Pages-blue" alt="Try Online"></a>
