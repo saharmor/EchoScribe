@@ -324,7 +324,84 @@ export default function Home() {
           onRecordingComplete={handleRecordingComplete}
         />
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-border/40 bg-background/60">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+          <div className="grid gap-8 sm:grid-cols-[1fr_auto_auto]">
+            <div>
+              <p className="font-serif text-lg font-medium text-foreground">
+                EchoScribe
+              </p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                Audio transcription workspace. Record or upload audio and get
+                clean transcripts using OpenAI Whisper.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                More AI Tools
+              </p>
+              <ul className="mt-3 space-y-2 text-sm">
+                <FooterLink href="https://www.promptclaude.dev/" label="Prompt Claude" description="Interactive prompt engineering course." />
+                <FooterLink href="https://sidekickdev.com/?utm_source=echoscribe" label="Sidekick Dev" description="Context files for AI coding agents." />
+                <FooterLink href="https://toolsuse.dev/?utm_source=echoscribe" label="Tool Calls Schema Generator" description="OpenAI & Anthropic tool schemas." />
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Links
+              </p>
+              <ul className="mt-3 space-y-2 text-sm">
+                <FooterLink href="https://github.com/saharmor/EchoScribe" label="GitHub" />
+                <FooterLink href="https://x.com/theaievangelist" label="X / Twitter" />
+                <FooterLink href="https://www.linkedin.com/in/sahar-mor/" label="LinkedIn" />
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 border-t border-border/40 pt-6 text-center text-xs text-muted-foreground">
+            Built by{" "}
+            <a
+              href="https://saharmor.me/?utm_source=echoscribe"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground transition"
+            >
+              Sahar Mor
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
+  )
+}
+
+function FooterLink({
+  href,
+  label,
+  description,
+}: {
+  href: string
+  label: string
+  description?: string
+}) {
+  return (
+    <li>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-foreground/80 underline-offset-2 hover:text-foreground hover:underline transition"
+      >
+        {label}
+      </a>
+      {description && (
+        <span className="block text-xs text-muted-foreground">{description}</span>
+      )}
+    </li>
   )
 }
 
