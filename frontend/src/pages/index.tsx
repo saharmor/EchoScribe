@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   Check,
   Copy,
+  Laptop,
   Mic,
   RotateCcw,
   Sparkles,
@@ -123,9 +124,19 @@ export default function Home() {
         </div>
 
         {isWebMode && (
-          <div className="mx-auto max-w-3xl">
-            <ApiKeyInput />
-          </div>
+          <p className="mx-auto mb-2 max-w-3xl text-center text-xs text-muted-foreground/80">
+            <Laptop className="mr-1 -mt-0.5 inline-block h-3.5 w-3.5" />
+            Want to transcribe locally?{" "}
+            <a
+              href="https://github.com/saharmor/EchoScribe"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground/70 underline underline-offset-2 transition hover:text-foreground"
+            >
+              Clone the repo
+            </a>{" "}
+            and run with local Whisper — no API key needed.
+          </p>
         )}
 
         {/* Two-pane layout: config left, result right */}
@@ -141,6 +152,8 @@ export default function Home() {
           <div>
             <div className="surface-panel p-6 sm:p-8">
               <div className="space-y-6">
+                {isWebMode && <ApiKeyInput />}
+
                 {/* Model picker */}
                 {modelOptions.length > 1 && (
                   <div>
